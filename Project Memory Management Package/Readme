@@ -1,0 +1,25 @@
+Readme HW6
+Copyright 2022 Ishan Dane
+12/12/2022
+
+
+* A brief description of our heap (free list) data structure is organized and the algorithms
+* used to manage it.
+
+My heap data structure freelist is organized by storing usable memory blocks
+in order of ascending address. The algorithms I used to manage our freelist is  mem_utils,getmem, and freemem. Getmem takes in a ‘size’ input provided by the user and iterates through the freelist to return a pointer to a block of usable memory that is at least 'size' bytes long for the user to use.  If a block does not exist in the freelist for the size requested, getmem uses malloc to allocate a new memory block in the freelist for the user to use. If the memory block chosen is significantly bigger than ‘size’, getmem splits the block appropriately for ‘size’ and returns this smaller block so that space is not wasted. If the memory block fits ‘size’ perfectly, it is returned to the user. Freemem takes in a freeNode* block pointer as a parameter and returns the block of memory back into the freelist to be used again later on. If the free block is adjacent to other free blocks in memory, then the free blocks involved are merged together into a single larger block. Mem_utils contained our function for adding a block back into the list, whether it was a free block or memory block, and merged the adjacent blocks together. If two adjacent blocks were merged, it would also need to check the following block to merge if that block was adjacent as well.
+
+* A summary of additional features or improvements in our memory manager or benchmark code. 
+
+Besides the features provided in the instructions, I did not veer too far off in adding many additional features or improvements to our memory manager or code. One thing I did to optimize my efficiency and design procedure was creating one large addToList function that adds a given node into freelist and checks all merge conditions and merges if needed. I placed this function in my mem_utils.c module and were able to access it and use it in both getmem.c and freemem.c. This saved me time writing individual functions in both modules and improved the overall efficiency of the process. 
+
+
+* A summary of the results I observed on several runs of my bench program. 
+
+The results I observed on several runs of our bench program was the exponential increase in run time as the number of trials increased in the bench program. For example, when I ran bench with 1000 trials, the total elapsed time was 0.326 ms, while running bench with 10000 trials the total elapsed time was 2.989 ms, and when running bench with 50000 trails the run time went up to 24.195 milliseconds. This shows the exponential/ quadratic growth in runtime when the trials are increased. As we increased the number of trials, the average bytes per free block was consistently random which shows that our size randomizer was working correctly. Doing repeated trails of 1000, 10000, and 50000 had similar runtimes, which suggested that getmem and freemem are providing consistent runtimes for the same operations. As I increase the number of trials, the final total storage is increasing, which means my getmem function is working correctly. We can see this because we are more likely to malloc more memory with more trials and therefore the eventual total storage should be higher.
+
+
+
+
+
+
