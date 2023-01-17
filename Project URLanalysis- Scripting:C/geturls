@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#Ishan Dane
+#11/14/2022
+#UWNetID: 1937153
+#PROJECT HW4 geturls
+
+#geturls takes in 2 arguments. The first argument is the final output file for
+#url results. The second argument is the html file to retreive urls.
+#geturls extracts all .c url links from the html input file and outputs them
+#per line in the output file. 
+
+#Checks if there are at least 2 arguments
+if [ $# -lt 2 ]
+then
+    echo "Usage: $0 outputfile inputfile" >&2; exit 1
+else
+    #Checks if input file exists
+    if [ ! -f "$2" ]
+    then
+	echo "Input file $2  does not exist" >&2; exit 1
+    fi
+
+    #Creates or overwrites 1st argument output file.
+    if [ ! -f "$1" ]
+      then
+	echo "$0 creating output file $1" >&1
+	touch "$1"
+    elif [ -f "$1" ]
+      then
+	echo "Warning: $0 overwritting file $1" >&2
+	> "$1"
+    fi
+    
+    #GREP retrieves all .c urls from the html file and outputs them
+    #into argument 1 output file. 
+    #SED formats the GREP urls in the output file to te correct format
+    #to be used later on.
+    grep -Eo 'href="[^"]+.c"' "$2" > "$1"
+    sed -i -e 's,href="..,https://courses.cs.washington.edu/courses/cse374/22au,' -e 's/.$//' "$1"    
+fi
+
+exit 0

@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#Ishan Dane
+#11/14/2022
+#UWNetID: 1937153
+#PROJECT HW4 runanalysis
+
+#runanalysis takes in 2 arguments. The first argument is the final output file
+#to store results. The second argument is the input URL file with URLs.
+#runanalysis reads each URL line form the input file and uses measurepage
+#to output the number of words on the file. The number of words and index
+#number for each URL is then appended into the output file. 
+
+#Checks if there are at least 2 arguments
+if [ $# -lt 2 ]
+then
+    echo "Usage: $0  outputfile inputfile" >&2
+    exit 1
+fi
+
+#Checks if input url file exists
+if [ ! -f "$2" ]
+then
+    echo "Input file $2 does not exist" >&2
+    exit 1
+fi
+
+
+#If output file already exists, warn the user of overwrite
+if [ -f "$1" ]
+then
+    echo "Warning: $0 overwritting existing $1" >&2
+    >"$1"
+fi
+
+#Includes current directory in path
+export PATH=$PATH:.
+#Index number variable
+i=0
+
+#While loop reads in each URL line and measurepage is used to output
+#number of words in the URL. Index number and number of words are outputted
+#into first argument output file. Process prints to user when performing and
+#prints success or failure depending on measurepage results.
+while IFS= read -r line
+do
+    echo "Performing wordcount measurement on $line..."
+    wc=$(measurepage "$line")
+    if [ "$wc" -ne 0 ]
+    then
+	i=$((i+1))
+	echo "...successful"
+	echo "$i $wc" >> "$1"
+    else
+	echo "...failure" 
+    fi
+     
+done < "$2"
+exit 0
+
+
+
+
+
+
+  

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#Ishan Dane
+#11/14/2022
+#UWNetID: 1937153
+#PROJECT HW4 measurepage
+
+#measurepage takes in a c file url input argument and then uses wget to
+#download it in a temporary file. The script then uses our wordcount.c
+#executable to output the number of words from the url c file.
+
+#Checks to make sure that there is at least 1 input file
+#If no input file, prints an error and exits with a return code of 1.
+if [ $# -eq 0 ]
+then
+    echo "Usage: $0 inputfile" >&2
+    exit 1
+else
+
+    #Include current directory to path.
+    export PATH=$PATH:.
+
+    #Checks to see if the URL is a valid URL.
+    #If URL is not valid, print a 0 and exit 0. Else we
+    #download the file into tmpfile and use
+    #wordcount to output number of words.
+    wget -q -nc --spider "$1" -O /dev/null
+    if [ "$?" -ne 0 ]
+    then
+	echo "0" >&1
+	exit 0 
+    else
+	tmpfile=`mktemp`
+	wget -q -nc "$1" -O - > "$tmpfile"
+	wordcount -w "$tmpfile"
+	trap "rm -f $tmpfile" EXIT
+
+    fi
+fi
+exit 0
+
+	
+   
