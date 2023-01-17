@@ -1,0 +1,28 @@
+Readme HW5
+Copyright 2022 Ishan Dane
+01/12/2022
+
+
+* A brief description of project t-nine
+
+In this project, I built a program to implement T9 predictive text, a text input mode developed originally for cell phones and still used for numeric keypads. Each number from 2-9 on the keypad represents three or four letters, the number 0 represents a space, and 1 represents a set of symbols such as { , . ! ? } etc. The numbers from 2-9 represent letters as follows:
+
+2 => ABC
+3 => DEF
+4 => GHI
+5 => JKL
+6 => MNO
+7 => PQRS
+8 => TUV
+9 => WXYZ
+
+To translate from number sequences to words, we will use a data structure known as a trie. For this application, we use a compressed trie that has only 10 possible branches at each node instead of 26, since the digits 0-9 represent the 26 letters, space and symbols. The command ./t9 FILE should read in a dictionary file (FILE) that contains a list of words. Translate each word in the dictionary into its numeric key sequence, then add the key sequence to our trie structure, with the word at the end of the path corresponding to the digits. If a word with the same numeric sequence already exists in the trie, add the new word to the trie as a link to a new node with an edge labeled '#' instead of one of the digits 2-9. (The words linked from a node by the '#' edges essentially form a "linked list" of words that have the same numeric code, but we use additional tree nodes to link the words together instead of defining a separate kind of linked-list node just for this situation.).
+Once your program has read the dictionary and built the trie containing the words in it, it should start an interactive session. The user should be able to type numbers and the program should print out the word corresponding to the sequence of numbers entered. Your program should use the numbers typed by the user to traverse the trie that has already been created, retrieve the word, and print it to the screen. If the user then enters '#', the program should print the next word in the trie that has the same numeric value, and so forth. The user can also type a number followed by one or more '#' characters - this should print the same word that would be found by typing the number and individual '#' characters on separate input lines.
+
+
+
+
+
+
+
+
